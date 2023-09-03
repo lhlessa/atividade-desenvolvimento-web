@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" type="text/css" href="styles/tarsila.css">
+
+    <title>Tarsila</title>
+</head>
+<body>
+
+    <h1>Obras de Tarsila do Amaral</h1>
+
+    <% for (let i=0; i<paintings.length; i++) {%>
+        <div class="card">
+            <img
+            src="<%= paintings[i].urlimagem %>"
+            class="card-image"
+            alt="<%= paintings[i].nome %>">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <%= paintings[i].nome %>
+                </h5>
+                <p class="card-text">
+                    <%= paintings[i].artista %>
+                </p>
+            </div>
+        </div>
+        <hr />
+    <% } %>
+    
+</body>
+</html>
