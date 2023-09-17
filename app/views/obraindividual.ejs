@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" type="text/css" href="styles/home.css">
+
+    <title>Museu Virtual</title>
+</head>
+  
+<body>
+
+    <h1>Museu Virtual</h1>
+    <div>
+        <div class="card">
+            <img src="<%= paintings[0].urlimagem %>" class="card-image" alt="<%= paintings[0].nome %>">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <%= paintings[0].nome %>
+                </h5>
+                <p class="card-text">
+                    <%= paintings[0].artista %>
+                </p>
+                <p class="card-comentarios">
+                    <%= paintings[0].comentarios %>
+                </p>
+                <button onclick="editarObra(<%= paintings[0].idobra %>)">Editar</button>
+                </form>
+            </div>
+        </div>
+        <hr />
+    </div>
+    <script>
+        function editarObra(idObra) {
+            window.location.href = `/editar?idobra=${idObra}`;
+        }
+    </script>
+
+</body>
+
+</html>

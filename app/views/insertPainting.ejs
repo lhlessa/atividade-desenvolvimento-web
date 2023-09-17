@@ -6,6 +6,7 @@
     <title>Formulário de Inclusão de Obra de Arte</title>
 </head>
 
+
 <body>
     <h1>Formulário para inclusão de obra de arte</h1>
     <section>
@@ -19,14 +20,15 @@
             </ul>
             <% } %>
     </section>
-    <form action="/salvaObra" method="post">
+    <form action="<%= isUpdate ? '/alterar' : '/salvaObra' %>" method="post">
         <input type="text" name="nome" placeholder="Digite o nome da obra" value = "<%= painting.nome %>" >
         <input type="text" name="artista" placeholder="Digite o nome da autora ou autor da obra" value = "<%= painting.artista %>"><br><br>
         <label>Comentários sobre a obra</label><br>
-        <textarea name="comentarios" value = "<%= painting.comentarios %>"></textarea><br><br>
+        <textarea name="comentarios"><%= painting.comentarios %></textarea><br><br>
         <input type="number" name="ano" placeholder="Digite o ano da obra" value = "<%= painting.ano %>">
         <input type="text" name="urlimagem" placeholder="Digite o url da imagem" value = "<%= painting.urlimagem %>"> 
-        <input type="submit" value="enviar">
+        <input type="submit" value="<%= isUpdate ? 'alterar' : 'enviar' %>">
+        <input type="hidden" name="idobra" value="<%= painting.idobra %>">
     </form>
 
 </body>

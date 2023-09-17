@@ -7,3 +7,7 @@ routes.portinari(app);
 //routes.error(app);
 routes.insertPainting(app);
 routes.savePainting(app);
+routes.selectObraPorId(app);
+routes.editarObraPorId(app)
+routes.updateObraPorId(app);
+
