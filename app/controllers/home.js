@@ -1,8 +1,8 @@
-const dbConnection = require('../../config/dbConnection');;
+const dbConnection = require('../../config/dbConnection');
 const { getPaintings } = require('../models/home');
 const { addPainting } = require('../models/home');
 const { selectId } = require('../models/home');
-const {updateObra} = require('../models/home');
+const { updateObra } = require('../models/home');
 const logger = require('../../config/logger');
 
 
@@ -10,7 +10,7 @@ module.exports.home = (app, req, res) => {
     dbConn = dbConnection();
 
     getPaintings(dbConn, (error, result) => {
-        if(error){
+        if (error) {
             logger.log({
 
                 level: 'error',
@@ -18,11 +18,12 @@ module.exports.home = (app, req, res) => {
             });
             let pagina = "<h1>Erro encontrado. Problema com a conexão do banco de dados. </h1><h2>" + error + "</h2>";
             res.status(500).send(pagina);
+            console.log(req.session.user);
         }
-        else{
-            res.render("home.ejs", { paintings: result });
+        else {
+            res.render("home.ejs", { paintings: result, isAuthenticated: req.session.authenticate, user: req.session.user});
         }
-        
+
     })
 
 
@@ -49,8 +50,11 @@ module.exports.updateById = (app, req, res) => {
     const idObra = parseInt(painting.idobra);
     dbConn = dbConnection();
 
-    updateObra(idObra,painting,dbConn,(error) => {
-        
+    updateObra(idObra, painting, dbConn, (error) => {
+        if(error){
+            console.log(error);
+        }
     });
-    
+
 }
+

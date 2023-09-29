@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="styles/home.css">
     <title>Formulário de Inclusão de Obra de Arte</title>
 </head>
 
@@ -22,7 +23,7 @@
     </section>
     <form action="<%= isUpdate ? '/alterar' : '/salvaObra' %>" method="post">
         <input type="text" name="nome" placeholder="Digite o nome da obra" value = "<%= painting.nome %>" >
-        <input type="text" name="artista" placeholder="Digite o nome da autora ou autor da obra" value = "<%= painting.artista %>"><br><br>
+        <input type="text" name="artista" placeholder="Digite o nome do autor da obra" value = "<%= painting.artista %>"><br><br>
         <label>Comentários sobre a obra</label><br>
         <textarea name="comentarios"><%= painting.comentarios %></textarea><br><br>
         <input type="number" name="ano" placeholder="Digite o ano da obra" value = "<%= painting.ano %>">

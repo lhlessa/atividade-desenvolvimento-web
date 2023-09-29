@@ -10,4 +10,8 @@ routes.savePainting(app);
 routes.selectObraPorId(app);
 routes.editarObraPorId(app)
 routes.updateObraPorId(app);
-
+routes.cadastraUsuario(app);
+routes.userRegisterService(app);
+routes.loginUser(app);
+routes.authenticate(app);
+routes.logOff(app);

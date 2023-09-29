@@ -3,7 +3,10 @@ const { tarsila } = require('../controllers/tarsila');
 const { portinari } = require('../controllers/portinari');
 const { addPaintingController } = require('../controllers/home');
 const { check, validationResult } = require('express-validator');
-//const {error} = require('../controllers/error');
+const { userRegisterController } = require('../controllers/userRegister');
+const { authenticateUser } = require('../controllers/authenticate');
+const isAuthenticated = require('../controllers/isAuthenticated');
+const app = require('../../config/server');
 
 module.exports = {
     home: (app) => {
@@ -12,18 +15,18 @@ module.exports = {
         });
     },
     tarsila: (app) => {
-        app.get('/tarsila', function (req, res) {
+        app.get('/tarsila', isAuthenticated, function (req, res) {
             tarsila(app, req, res);
         });
     },
     portinari: (app) => {
-        app.get('/portinari', function (req, res) {
+        app.get('/portinari', isAuthenticated, function (req, res) {
             portinari(app, req, res);
         });
     },
     insertPainting: (app) => {
         console.log("Rota do formulário para inserção de obras");
-        app.get('/inserirobra', function (req, res) {
+        app.get('/inserirobra', isAuthenticated, function (req, res) {
             const idObra = parseInt(req.query.idobra);
             if (idObra) {
                 selectById(idObra, (error, result) => {
@@ -52,7 +55,7 @@ module.exports = {
             });
     },
     selectObraPorId: (app) => {
-        app.get('/home', function (req, res) {
+        app.get('/home', isAuthenticated, function (req, res) {
             const idObra = parseInt(req.query.idobra);
             selectById(idObra, (error, result) => {
                 if (result && result.length > 0) {
@@ -64,7 +67,7 @@ module.exports = {
         });
     },
     editarObraPorId: (app) => {
-        app.get('/editar', function (req, res) {
+        app.get('/editar', isAuthenticated, function (req, res) {
             const idObra = parseInt(req.query.idobra);
             selectById(idObra, (error, result) => {
                 if (result && result.length > 0) {
@@ -76,14 +79,14 @@ module.exports = {
         });
 
     },
-    updateObraPorId:(app) => {
+    updateObraPorId: (app) => {
         app.post('/alterar',
             check('nome').isLength({ min: 1, max: 100 }).withMessage('Nome deve ter pelo menos 5 caracteres'),
             check('artista').isLength({ min: 1, max: 100 }).withMessage('Nome deve ter pelo menos 5 caracteres'),
             check('ano').isLength({ min: 4, max: 4 }).withMessage('Ano deve ter apenas 04 caracteres.').isNumeric().withMessage('Somente números são aceitos no ano.').isInt({ min: 0, max: 2100 }).withMessage('Ano deve estar entre 0 e 2100'),
             check('comentarios').isLength({ min: 1, max: 250 }).withMessage('Comentário deve ter pelo menos entre 01 e 250 caracteres'),
-            check('urlimagem').isURL().withMessage('Url da imagem deve conter um link')
-            , function (req, res) {
+            check('urlimagem').isURL().withMessage('Url da imagem deve conter um link'),
+            function (req, res) {
                 const validation = validationResult(req);
                 if (!validation.isEmpty()) {
                     const painting = req.body;
@@ -93,15 +96,60 @@ module.exports = {
                     res.redirect('/');
                 }
             });
-        }
-
-    /*,
-    error: (app) =>{
-        app.get('*', function(req, res){
-            error(app, req, res);
+    },
+    cadastraUsuario: (app) => {
+        app.get('/cadastro', function (req, res) {
+            res.render('cadastro.ejs', { errors: [], userRegister: [] });
         });
-    }*/
+
+    },
+    userRegisterService: (app) => {
+        app.post('/cadastroUsuario',
+            check('usuario').trim().isLength({ min: 6, max: 20 }).withMessage('Nome deve ter pelo menos entre 6 e 20 caracteres'),
+            check('email').isEmail().isLength({ max: 20 }).withMessage('O campo deve ser um email válido'),
+            check('password').trim().isLength({ min: 6, max: 20 }).withMessage('Senha deve ter pelo menos entre 6 e 20 caracteres'),
+            function (req, res) {
+                const validation = validationResult(req);
+                if (!validation.isEmpty()) {
+
+                    res.render('cadastro.ejs', { errors: validation.errors, userRegister: userRegister });
+                } else {
+                    const userRegister = req.body;
+                    userRegisterController(app, userRegister, res);
+                    console.log("Validação funcionou!!");
+                    res.redirect('/');
+                }
+            });
+    },
+    loginUser: (app) => {
+        app.get('/login', function (req, res) {
+            res.render('login.ejs')
+        });
+    },
+    authenticate: (app) => {
+        app.post('/autenticacao', function (req, res) {
+            authenticateUser(app, req, res);
+        });
+    },
+    logOff: (app) => {
+        app.post('/logout', function (req, res) {
+            req.session.destroy((err) => {
+                if (err) {
+                    console.error('Erro ao encerrar sessão:', err);
+                }
+                // Redirecione para a página de login ou qualquer outra página apropriada após o logout
+                res.redirect('/login'); // ou res.redirect('/');
+            });
+        });
+    }
 }
+/*,
+error: (app) =>{
+    app.get('*', function(req, res){
+        error(app, req, res);
+    });
+}*/
+
 
 
 /*function metodoDeEntrada() {

@@ -13,8 +13,16 @@
 <body>
 
     <h1>Museu Virtual</h1>
+    <h2> <%= isAuthenticated? user.usuario : ""%></h2>
+    <div> 
+        <form action="/logout" method="post">
+            <%- isAuthenticated ? '<button>Sair</button>' : '' %>
+        </form>
+    </div>
+   
     <div>
         <% for (let i=0; i<paintings.length; i++) {%>
+           
             <div class="card">
                 <a href="/home?idobra=<%= paintings[i].idobra %>"><img src="<%= paintings[i].urlimagem %>"
                         class="card-image" alt="<%= paintings[i].nome %>"></a>
