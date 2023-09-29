@@ -1,11 +1,14 @@
 const dbConnection = require('../../config/dbConnection');
 const {authenticateUserDataBase} = require('../models/authenticate_model');
+let crypto = require('crypto'); 
 
 module.exports.authenticateUser = (app,req,res) => {
     console.log("Controller User Auth User");
     let user = req.body;
     console.log(user);
     dbConn = dbConnection();
+    let senhaCriptografada = crypto.createHash('md5').update(user.password).digest('hex');
+    user.password = senhaCriptografada;
     authenticateUserDataBase(user, dbConn, (error, result) => {
         if(error){
             console.log(error);
