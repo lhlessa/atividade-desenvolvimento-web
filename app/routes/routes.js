@@ -1,4 +1,4 @@
-const { home, selectById, updateById } = require('../controllers/home');
+const { home, selectById, updateById, deleteById } = require('../controllers/home');
 const { tarsila } = require('../controllers/tarsila');
 const { portinari } = require('../controllers/portinari');
 const { addPaintingController } = require('../controllers/home');
@@ -141,7 +141,11 @@ module.exports = {
                 res.redirect('/login'); // ou res.redirect('/');
             });
         });
-    }
+    },
+    deletarObraPorId: (app) =>
+        app.get('/deletar', isAuthenticated, function(req,res){
+            deleteById(app, req, res); 
+        })
 }
 /*,
 error: (app) =>{

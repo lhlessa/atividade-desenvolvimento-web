@@ -15,3 +15,4 @@ routes.userRegisterService(app);
 routes.loginUser(app);
 routes.authenticate(app);
 routes.logOff(app);
+routes.deletarObraPorId(app);

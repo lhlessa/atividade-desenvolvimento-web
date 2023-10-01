@@ -1,4 +1,4 @@
-const dbConnection = require("../../config/dbConnection");
+//const dbConnection = require("../../config/dbConnection");
 
 module.exports = {
     getPaintings : (dbConnection, callBack) => {
@@ -25,4 +25,9 @@ module.exports = {
         console.log(sql);
         dbConnection.query(sql, callBack);
     },
+    deleteId: (idObra, dbConnection, callBack) => {
+        const sql = `delete from obrasdearte where idobra =${idObra};`;
+        console.log(sql);
+        dbConnection.query(sql, callBack);
+    }
 }

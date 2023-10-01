@@ -3,6 +3,7 @@ const { getPaintings } = require('../models/home');
 const { addPainting } = require('../models/home');
 const { selectId } = require('../models/home');
 const { updateObra } = require('../models/home');
+const { deleteId } = require('../models/home');
 const logger = require('../../config/logger');
 
 
@@ -56,5 +57,19 @@ module.exports.updateById = (app, req, res) => {
         }
     });
 
+}
+
+module.exports.deleteById = (app, req, res) =>{
+    const idObra = parseInt(req.query.idobra);
+    console.log(idObra);
+    dbConn = dbConnection();
+    deleteId(idObra, dbConn, (error) => {
+        if(error){
+            console.log(error);
+        }
+        else{
+            res.redirect('/');
+        }
+    });
 }
 

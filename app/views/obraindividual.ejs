@@ -27,6 +27,7 @@
                     <%= paintings[0].comentarios %>
                 </p>
                 <button onclick="editarObra(<%= paintings[0].idobra %>)">Editar</button>
+                <button onclick="deletarObra(<%= paintings[0].idobra %>)">Deletar</button>
                 </form>
             </div>
         </div>
@@ -35,6 +36,9 @@
     <script>
         function editarObra(idObra) {
             window.location.href = `/editar?idobra=${idObra}`;
+        }
+        function deletarObra(idObra) {
+            window.location.href = `/deletar?idobra=${idObra}`;
         }
     </script>
 
